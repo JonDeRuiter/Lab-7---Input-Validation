@@ -226,36 +226,33 @@ namespace Lab_7___Input_Validation
             string first, second, third, phoneDigits;
             bool valid = true;
 
-            try
+            if (input.Length == 12)
             {
                 first = input.Substring(0, 3);
                 second = input.Substring(4, 3);
                 third = input.Substring(8, 4);
-            }catch (ArgumentOutOfRangeException)
-            {
-                Console.WriteLine("Not a valid Phone Number");
-                first = "INVALID";
-                second = "INVALID";
-                third = "INVALID";
-            }
+                phoneDigits = first + second + third;
 
-            phoneDigits = first + second + third;
+                char[] inputArray = input.ToCharArray();
+                char[] phoneArray = phoneDigits.ToCharArray();
+
+                if (!(inputArray[3] == '-' && inputArray[7] == '-'))
+                {
+                    valid = false;
+                }
+
+                if (!(NumReal(phoneArray)))
+                {
+                    valid = false;
+                }
+
+            }
+            else
+            {
+                valid = false;
+            }
             
-            char[] phoneArray = phoneDigits.ToCharArray();
-
-            if (!(phoneArray[3] == '-' && phoneArray[7] == '-'))
-            {
-                valid = false;
-            }
-
-            if (!(NumReal(phoneArray)))
-            {
-                valid = false;
-            }
-
             return valid;
-
-
         }
         public static bool ValidDate(string input)
         {
