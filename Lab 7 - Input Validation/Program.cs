@@ -15,41 +15,50 @@ namespace Lab_7___Input_Validation
 
             do
             {
-                //Console.WriteLine("Please enter a valid name: ");
-                //input = Console.ReadLine();
-                //bool name = ValidName(input);
-                //if (name)
-                //{
-                //    Console.WriteLine($"{input} is a valid name!");
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"{input} is not a valid name!");
-                //}
-                //Console.WriteLine("Please enter a valid email: ");
-                //input = Console.ReadLine();
-                //bool email = ValidEmail(input);
-                //if (email)
-                //{
-                //    Console.WriteLine($"{input} is a valid email!");
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"{input} is not a valid email.");
-                //}
+                Console.WriteLine("Please enter a valid name: ");
+                input = Console.ReadLine();
+                bool name = ValidName(input);
+                if (name)
+                {
+                    Console.WriteLine($"{input} is a valid name!");
+                }
+                else
+                {
+                    Console.WriteLine($"{input} is not a valid name!");
+                }
+                Console.WriteLine("Please enter a valid email: ");
+                input = Console.ReadLine();
+                bool email = ValidEmail(input);
+                if (email)
+                {
+                    Console.WriteLine($"{input} is a valid email!");
+                }
+                else
+                {
+                    Console.WriteLine($"{input} is not a valid email.");
+                }
                 Console.WriteLine("Please enter a valid phone number: ");
                 input = Console.ReadLine();
-                ValidPhone(input);
-                //if (phone)
-                //{
-                //    Console.WriteLine($"{input} is a valid phone number!");
-                //}
-                //else
-                //{
-                //    Console.WriteLine($"{input} is not a valid phone number!");
-                //}
+                bool phone = ValidPhone(input);
+                if (phone)
+                {
+                    Console.WriteLine($"{input} is a valid phone number!");
+                }
+                else
+                {
+                    Console.WriteLine($"{input} is not a valid phone number!");
+                }
                 Console.WriteLine("Please enter a valid date (dd/mm/yyyy): ");
-                Console.WriteLine("Please enter a valid html element: ");
+                input = Console.ReadLine();
+                bool date = ValidDate(input);
+                if (date)
+                {
+                    Console.WriteLine($"{input} is a valid date!");
+                }
+                else
+                {
+                    Console.WriteLine($"{input} is not a valid date.");
+                }
                 
                 
 
@@ -82,7 +91,7 @@ namespace Lab_7___Input_Validation
         public static bool ValidName (string input)
         {
             int counter = 0;
-            bool valid;
+            bool valid = true;
             char[] nameArray = input.ToCharArray();
 
             //If anything does not conform to name parameters it adds to the counter, if counter is above 0, the string is not a valid name
@@ -101,10 +110,7 @@ namespace Lab_7___Input_Validation
             {
                 valid = false;
             }
-            else
-            {
-                valid = true;
-            }
+           
 
             return valid;
         }
@@ -173,9 +179,8 @@ namespace Lab_7___Input_Validation
         {
             bool charValid = true;
             int counter = 0;
-            
 
-            for (int i = start; i < (end + 1) ; i++)
+            for (int i = start; i < (end + 1); i++)
             {
                 if (!(NumReal(fullEmail) || Char.IsLetter(fullEmail[i])))
                 {
@@ -186,11 +191,9 @@ namespace Lab_7___Input_Validation
             {
                 charValid = false;
             }
-            else
-            {
-                charValid = true;
-            }
+           
             return charValid;
+            
         } 
         public static bool NumReal(char[] fullEmail)
         {
@@ -205,9 +208,24 @@ namespace Lab_7___Input_Validation
 
             return valid;
         }
-        public static void ValidPhone(string input)
+        public static bool LettReal(char[] fullEmail)
+        {
+
+            bool valid = true;
+            for (int i = 0; i < fullEmail.Length; i++)
+            {
+                if (!(Char.IsLetter(fullEmail[i])))
+                {
+                    valid = false;
+                }
+            }
+            return valid;
+        }
+        public static bool ValidPhone(string input)
         {
             string first, second, third, phoneDigits;
+            bool valid = true;
+
             try
             {
                 first = input.Substring(0, 3);
@@ -223,23 +241,34 @@ namespace Lab_7___Input_Validation
 
             phoneDigits = first + second + third;
             
-
             char[] phoneArray = phoneDigits.ToCharArray();
-            for (int i = 0; i < phoneDigits.Length; i++)
+
+            if (!(phoneArray[3] == '-' && phoneArray[7] == '-'))
             {
-
-                if (Char.IsDigit(phoneArray[i]))
-                {
-
-                }
-                else
-                {
-                    throw new Exception e;
-                }
+                valid = false;
             }
-            Console.WriteLine($"{phoneDigits} is a valid phone Number!");
+
+            if (!(NumReal(phoneArray)))
+            {
+                valid = false;
+            }
+
+            return valid;
 
 
+        }
+        public static bool ValidDate(string input)
+        {
+            bool valid = true;
+            string format = "dd/MM/yyyy";
+            DateTime dateObj;
+
+            if (!(DateTime.TryParseExact(input, format, null, System.Globalization.DateTimeStyles.AssumeLocal, out dateObj)))
+            {
+                valid = false;
+            }
+
+            return valid;
         }
     }
 }
