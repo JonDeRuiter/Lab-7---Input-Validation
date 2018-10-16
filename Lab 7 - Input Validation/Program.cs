@@ -60,8 +60,6 @@ namespace Lab_7___Input_Validation
                     Console.WriteLine($"{input} is not a valid date.");
                 }
                 
-                
-
                 again = Continue();
             } while (again);
 
@@ -130,7 +128,8 @@ namespace Lab_7___Input_Validation
             //    return false;
             //}
 
-            bool user, domain, domainName, valid = true;
+            bool user, domain, valid = true;
+            bool domainName = true;
             char[] fullEmail = input.ToCharArray();
             int at, period;
 
@@ -158,7 +157,13 @@ namespace Lab_7___Input_Validation
 
             if (input.Length - (period + 1) >= 2 && input.Length - (period + 1) <= 3)
             {
-                domainName = IsCharNum((period+1),(input.Length - 1), fullEmail);
+                for (int i = (period + 1); i < (input.Length - 1); i++)
+                {
+                    if (!(char.IsLetter(fullEmail[i])))
+                    {
+                        domainName = false;
+                    }                    
+                }
             }
             else
             {
@@ -182,7 +187,7 @@ namespace Lab_7___Input_Validation
 
             for (int i = start; i < (end + 1); i++)
             {
-                if (!(NumReal(fullEmail) || Char.IsLetter(fullEmail[i])))
+                if (!(Char.IsDigit(fullEmail[i]) || Char.IsLetter(fullEmail[i])))
                 {
                     counter++;
                 }
